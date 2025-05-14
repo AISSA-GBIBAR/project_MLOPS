@@ -1,0 +1,5 @@
+outs:
+- md5: 4786d94de4387333164fb962f89d2914
+  size: 151275724
+  hash: md5
+  path: cleaned_hate_speech.csv

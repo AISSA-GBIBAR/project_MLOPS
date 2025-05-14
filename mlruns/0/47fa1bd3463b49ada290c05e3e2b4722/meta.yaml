@@ -1,0 +1,16 @@
+artifact_uri: file:///d:/Cours_LE_ME/Master d'excellence/S1/python/mini project/project/Projet
+  MLOps/src/../mlruns/0/47fa1bd3463b49ada290c05e3e2b4722/artifacts
+end_time: 1747092984172
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 47fa1bd3463b49ada290c05e3e2b4722
+run_name: Sentiment Analysis Training
+run_uuid: 47fa1bd3463b49ada290c05e3e2b4722
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747092964078
+status: 3
+tags: []
+user_id: gbibar

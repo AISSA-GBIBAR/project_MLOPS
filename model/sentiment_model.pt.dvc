@@ -1,0 +1,5 @@
+outs:
+- md5: c7551075b2468429f74ecba64aec279f
+  size: 267861343
+  hash: md5
+  path: sentiment_model.pt
