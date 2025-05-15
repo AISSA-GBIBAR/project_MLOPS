@@ -1,7 +1,13 @@
 from fastapi import FastAPI
+from prometheus_client import Counter, Histogram, generate_latest
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
+import time
+
+# Prometheus Metrics ===
+REQUEST_COUNT = Counter('api_requests_total', 'Total number of requests', ['method', 'endpoint'])
+REQUEST_LATENCY = Histogram('api_request_duration_seconds', 'Request latency', ['endpoint'])
 
 # === Initialisation de l'application FastAPI ===
 app = FastAPI()
@@ -23,6 +29,8 @@ class CommentRequest(BaseModel):
 # === Endpoint principal ===
 @app.post("/predict")
 def predict_sentiment(request: CommentRequest):
+    start_time = time.time()
+    REQUEST_COUNT.labels(method='POST', endpoint='/predict').inc()
     # Tokenization du texte
     inputs = tokenizer(request.text, padding=True, truncation=True, max_length=32, return_tensors="pt")
     
@@ -34,6 +42,8 @@ def predict_sentiment(request: CommentRequest):
         prediction = torch.argmax(probabilities, dim=1).item()
         confidence = probabilities[0][prediction].item()
     
+    REQUEST_LATENCY.labels(endpoint='/predict').observe(time.time() - start_time)
+    
     # Préparation de la réponse
     label = "Positive" if prediction == 1 else "Negative"
     return {
@@ -41,3 +51,7 @@ def predict_sentiment(request: CommentRequest):
         "prediction": label,
         "confidence": round(confidence, 4)
     }
+    
+@app.get("/metrics")
+def metrics():
+    return generate_latest()

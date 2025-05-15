@@ -9,6 +9,9 @@ COPY api/app.py /app/app.py
 COPY model/sentiment_model.pt /app/model/sentiment_model.pt
 COPY requirements.txt /app/requirements.txt
 
+# Install PyTorch CPU version
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
 # 4 - Installer les dépendances
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
